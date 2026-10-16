@@ -1,4 +1,5 @@
 """Tests für Import-VCardToExchangeOnline.ps1 gegen den Graph-Mock."""
+import os
 import subprocess
 import sys
 import tempfile
@@ -38,7 +39,7 @@ class ImportFlow(unittest.TestCase):
         cls.tmp.cleanup()
 
     def run_ps(self, *extra):
-        cmd = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(PS1), "-NoBrowser", "-Force",
+        cmd = [os.environ.get("PS_EXE", "powershell.exe"), "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(PS1), "-NoBrowser", "-Force",
                "-GraphBase", f"http://127.0.0.1:{self.port}/v1.0", "-LoginBase", f"http://127.0.0.1:{self.port}",
                *extra]
         p = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)

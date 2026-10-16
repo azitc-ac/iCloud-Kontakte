@@ -24,7 +24,7 @@ So erzeugst Du das app-spezifische Passwort:
 
 ## Start
 
-Voraussetzung: Python 3.9+ (getestet mit 3.12).
+Voraussetzung: Python 3.9+ (getestet nur mit 3.12).
 
 ```powershell
 python server.py
@@ -51,7 +51,7 @@ powershell -ExecutionPolicy Bypass -File .\iCloud-Kontakte.ps1          # option
 
 ## Import nach Exchange Online (Microsoft Graph)
 
-`Import-VCardToExchangeOnline.ps1` (ebenfalls eine einzelne Datei, nur Windows PowerShell 5.1) importiert **einzelne oder alle**
+`Import-VCardToExchangeOnline.ps1` (ebenfalls eine einzelne Datei; getestet mit Windows PowerShell 5.1 und PowerShell 7) importiert **einzelne oder alle**
 vCards in einen **wählbaren Kontakteordner** des eigenen oder eines gemeinsamen Postfachs. Quellen: `.vcf` (auch Sammeldateien),
 Ordner oder das ZIP aus dem Export.
 
@@ -79,6 +79,33 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
 * Import in 20er-Blöcken per `$batch`, Wiederholung bei Drosselung (HTTP 429), Zusammenfassung und Fehlerliste am Ende; Exitcode 1 bei Fehlern.
 * Grenzen: nur Anlegen, kein Aktualisieren bestehender Kontakte; Kategorien/Gruppen aus iCloud werden nicht übertragen.
   Automatische Tests laufen gegen einen Graph-Mock (`mock_graph.py`); manuell gegen Exchange Online erfolgreich getestet.
+
+## Parameter
+
+**`iCloud-Kontakte.ps1`**
+
+| Parameter | Bedeutung |
+|---|---|
+| `-Port` | Port des lokalen Servers (Standard 8765) |
+| `-NoBrowser` | Browser nicht automatisch öffnen |
+| `-CardDavUrl` | nur für Tests: Mock-CardDAV-Server statt iCloud |
+
+**`Import-VCardToExchangeOnline.ps1`**
+
+| Parameter | Bedeutung |
+|---|---|
+| `-Path` | `.vcf`-Datei(en), Ordner oder `.zip` (ohne Angabe: Dateidialog) |
+| `-All` | alle Kontakte importieren (sonst Auswahlliste) |
+| `-Folder` / `-CreateFolder` | Zielordner (`Name` oder `Eltern/Kind`) / fehlende Ordner anlegen |
+| `-Mailbox` | anderes oder gemeinsames Postfach |
+| `-TenantId` / `-ClientId` | Mandant / App-ID für die Anmeldung |
+| `-AllowDuplicates` | auch bereits vorhandene Kontakte anlegen |
+| `-Force` | keine Rückfragen (Standardordner, wenn kein `-Folder` angegeben) |
+| `-NoBrowser` | Anmelde-Seite nicht automatisch öffnen |
+| `-WhatIf` | nur anzeigen, nichts anlegen |
+| `-GraphBase` / `-LoginBase` | nur für Tests: Mock-Graph-Server statt Microsoft |
+
+**`server.py`**: `--port`, `--no-browser`, `--carddav-url` (nur für Tests).
 
 ## Funktionen
 

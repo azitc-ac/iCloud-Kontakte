@@ -1,5 +1,6 @@
 """Dieselben Flow-Tests gegen die PowerShell-Variante (Windows PowerShell 5.1)."""
 import socket
+import os
 import subprocess
 import sys
 import threading
@@ -30,7 +31,7 @@ class PsFlow(test_flow.Flow):
         threading.Thread(target=cls.mock.serve_forever, daemon=True).start()
         port = free_port()
         cls.proc = subprocess.Popen(
-            ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(PS1), "-Port", str(port),
+            [os.environ.get("PS_EXE", "powershell.exe"), "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", str(PS1), "-Port", str(port),
              "-NoBrowser", "-CardDavUrl", f"http://127.0.0.1:{cls.mock.server_address[1]}/"],
             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         cls.base = f"http://127.0.0.1:{port}"

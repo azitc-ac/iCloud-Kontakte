@@ -28,6 +28,23 @@ python server.py
 
 Der Browser öffnet <http://127.0.0.1:8765/>. Optionen: `--port 9000`, `--no-browser`.
 
+## Variante als einzelne PowerShell-Datei (ohne Python)
+
+`iCloud-Kontakte.ps1` enthält alles (Server, CardDAV, Oberfläche) in **einer Datei** und läuft mit Windows PowerShell 5.1
+oder neuer – ohne Installation, ohne Adminrechte. Funktionsumfang und Datenschutz wie oben.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\iCloud-Kontakte.ps1          # optional: -Port 9000 -NoBrowser
+```
+
+* Die Datei ist nach Download/Mail oft „blockiert“: einmalig `Unblock-File .\iCloud-Kontakte.ps1` ausführen
+  oder den Aufruf mit `-ExecutionPolicy Bypass` wie oben nutzen.
+* Beenden mit Strg+C. Die Adresse ist `http://127.0.0.1:8765/` (nicht `localhost`).
+* Die Datei wird **generiert** (`python build_ps1.py`) aus `ps/iCloud-Kontakte.template.ps1` und `static/*`. Änderungen
+  an der Oberfläche daher in `static/` machen und neu bauen; die Python-App nutzt dieselben Dateien.
+* Tests: `python -m unittest discover -s tests -v` führt dieselben Abläufe gegen Python- **und** PowerShell-Variante aus
+  (gegen den Mock-Server).
+
 ## Funktionen
 
 * Anmeldung mit Apple-ID + app-spezifischem Passwort, mit Anleitung und Warnung bei falschem Passwortformat

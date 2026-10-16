@@ -71,7 +71,7 @@ class Flow(unittest.TestCase):
         req = urllib.request.Request(self.base + "/", headers={"Host": "evil.example"})
         with self.assertRaises(urllib.error.HTTPError) as cm:
             urllib.request.urlopen(req)
-        self.assertEqual(cm.exception.code, 403)
+        self.assertIn(cm.exception.code, (400, 403))
 
     def test_3_unauthenticated(self):
         self.assertEqual(self.call("/api/contacts", cookie=False)[0], 401)

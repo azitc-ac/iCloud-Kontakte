@@ -43,7 +43,37 @@ powershell -ExecutionPolicy Bypass -File .\iCloud-Kontakte.ps1          # option
 * Die Datei wird **generiert** (`python build_ps1.py`) aus `ps/iCloud-Kontakte.template.ps1` und `static/*`. Änderungen
   an der Oberfläche daher in `static/` machen und neu bauen; die Python-App nutzt dieselben Dateien.
 * Tests: `python -m unittest discover -s tests -v` führt dieselben Abläufe gegen Python- **und** PowerShell-Variante aus
-  (gegen den Mock-Server).
+  (gegen den Mock-Server) und testet den Importer gegen den Graph-Mock.
+
+## Import nach Exchange Online (Microsoft Graph)
+
+`Import-VCardToExchangeOnline.ps1` (ebenfalls eine einzelne Datei, nur Windows PowerShell 5.1) importiert **einzelne oder alle**
+vCards in einen **wählbaren Kontakteordner** des eigenen oder eines gemeinsamen Postfachs. Quellen: `.vcf` (auch Sammeldateien),
+Ordner oder das ZIP aus dem Export.
+
+```powershell
+# interaktiv: Dateidialog, Auswahlliste der Kontakte, Auswahlliste der Ordner (Out-GridView)
+powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
+
+# automatisch: alle Kontakte in Ordner "iCloud" (wird bei Bedarf angelegt); erst mit -WhatIf probieren
+.\Import-VCardToExchangeOnline.ps1 -Path .\iCloud-Kontakte-2026-10-16.zip -All -Folder "iCloud" -CreateFolder -WhatIf
+.\Import-VCardToExchangeOnline.ps1 -Path .\iCloud-Kontakte-2026-10-16.zip -All -Folder "iCloud" -CreateFolder
+```
+
+* **Anmeldung:** Device-Code-Flow (Browser + Code, MFA-fähig), delegierte Berechtigung `Contacts.ReadWrite`
+  (`-Mailbox user@firma.de` für ein anderes Postfach zusätzlich `Contacts.ReadWrite.Shared`). Tokens nur im Speicher.
+  Standardmäßig wird Microsofts öffentlicher Client „Microsoft Graph Command Line Tools“ genutzt. Sperrt der Kunde ihn
+  (Zustimmung des Administrators nötig), eine eigene App-Registrierung (öffentlicher Client, Device-Code erlaubt,
+  delegiert `Contacts.ReadWrite`) anlegen und per `-ClientId` übergeben; ggf. `-TenantId firma.de`.
+* **Ordner:** `-Folder "Name"` oder `"Eltern/Kind"`; `Kontakte` = Standardordner; `-CreateFolder` legt fehlende Ordner an.
+  Ohne `-Folder` erscheint eine Auswahlliste (inkl. „Neuen Ordner anlegen“).
+* **Duplikate:** Kontakte mit gleichem Anzeigenamen + erster E-Mail im Zielordner werden übersprungen (`-AllowDuplicates` schaltet das ab).
+* **Abbildung vCard → Outlook-Kontakt:** Name (inkl. Anrede/Zweitname/Zusatz), Firma/Abteilung/Position, Mobil-/Privat-/Geschäftstelefon,
+  bis zu 3 E-Mails, Privat-/Geschäfts-/Sonstige Adresse, Webseite, Geburtstag (mit Jahr), Notiz, Foto. Was Outlook nicht
+  fassen kann (z. B. 4. E-Mail, Fax, weitere Adressen) wird **nicht verworfen**, sondern unten in die Notiz geschrieben.
+* Import in 20er-Blöcken per `$batch`, Wiederholung bei Drosselung (HTTP 429), Zusammenfassung und Fehlerliste am Ende; Exitcode 1 bei Fehlern.
+* Grenzen: nur Anlegen, kein Aktualisieren bestehender Kontakte; Kategorien/Gruppen aus iCloud werden nicht übertragen.
+  Gegen echtes Exchange Online noch nicht getestet (nur gegen einen Graph-Mock, `mock_graph.py`).
 
 ## Funktionen
 

@@ -349,7 +349,7 @@ function ConvertFrom-VCard([string]$Raw) {
     $addrs = New-Object System.Collections.ArrayList
     $urls = New-Object System.Collections.ArrayList
     $c = [ordered]@{ version = ''; uid = ''; fn = ''; family = ''; given = ''; org = ''; title = ''
-        birthday = ''; note = ''; hasPhoto = $false }
+        birthday = ''; note = ''; hasPhoto = $false; middle = ''; prefix = ''; suffix = ''; company = ''; department = '' }
     foreach ($pr in $props) {
         $label = ''
         if ($pr.g -and $labels.ContainsKey($pr.g)) { $label = $labels[$pr.g] }
@@ -361,8 +361,14 @@ function ConvertFrom-VCard([string]$Raw) {
             'N' {
                 $f = @(Split-VcFields $v) + @('', '')
                 $c.family = ConvertFrom-VcEscape $f[0]; $c.given = ConvertFrom-VcEscape $f[1]
+                $f = $f + @('', '', '')
+                $c.middle = ConvertFrom-VcEscape $f[2]; $c.prefix = ConvertFrom-VcEscape $f[3]; $c.suffix = ConvertFrom-VcEscape $f[4]
             }
-            'ORG' { $c.org = (@(Split-VcFields $v | Where-Object { $_ } | ForEach-Object { ConvertFrom-VcEscape $_ }) -join ' / ') }
+            'ORG' {
+                $of = @(Split-VcFields $v) + @('', '')
+                $c.company = ConvertFrom-VcEscape $of[0]; $c.department = ConvertFrom-VcEscape $of[1]
+                $c.org = (@(Split-VcFields $v | Where-Object { $_ } | ForEach-Object { ConvertFrom-VcEscape $_ }) -join ' / ')
+            }
             'TITLE' { $c.title = ConvertFrom-VcEscape $v }
             'TEL' {
                 $x = ConvertFrom-VcEscape $v
@@ -373,7 +379,8 @@ function ConvertFrom-VCard([string]$Raw) {
             'ADR' {
                 $f = @((Split-VcFields $v) + @('', '', '', '', '', '', ''))[0..6] | ForEach-Object { ConvertFrom-VcEscape $_ }
                 $lines = @($f[2], ((@($f[5], $f[3]) | Where-Object { $_ }) -join ' '), $f[4], $f[6]) | Where-Object { $_ }
-                [void]$addrs.Add(@{ type = (Get-VcTypes (Get-VcParams $pr.p) $label); value = (@($lines) -join "`n") })
+                [void]$addrs.Add(@{ type = (Get-VcTypes (Get-VcParams $pr.p) $label); value = (@($lines) -join "`n")
+                        street = ((@($f[0], $f[1], $f[2]) | Where-Object { $_ }) -join "`n"); city = [string]$f[3]; state = [string]$f[4]; zip = [string]$f[5]; country = [string]$f[6] })
             }
             'URL' { [void]$urls.Add(@{ type = (Get-VcTypes (Get-VcParams $pr.p) $label); value = (ConvertFrom-VcEscape $v) }) }
             'BDAY' { $c.birthday = $v }

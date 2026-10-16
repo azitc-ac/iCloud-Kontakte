@@ -1,4 +1,4 @@
-<img width="970" height="974" alt="image" src="https://github.com/user-attachments/assets/81b5ed2a-86af-4b50-84db-178b98f2e016" />
+<img width="970" alt="Kontaktliste mit Detailansicht und Export" src="assets/screenshot-liste.png" />
 
 # iCloud-Kontakte Export
 

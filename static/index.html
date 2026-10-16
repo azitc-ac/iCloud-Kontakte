@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iCloud-Kontakte Export</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header><h1>iCloud-Kontakte Export</h1><span id="who"></span><button id="logout" hidden>Abmelden</button></header>
+
+<main id="login">
+  <form id="loginForm" autocomplete="off">
+    <h2>Mit Apple-Konto verbinden</h2>
+    <div class="note">
+      <strong>Wichtig:</strong> Apple erlaubt den Zugriff auf iCloud-Kontakte für Fremd-Apps nur über ein
+      <strong>app-spezifisches Passwort</strong>. Ihr normales Apple-Passwort funktioniert hier nicht und wird nie verlangt.
+      <ol>
+        <li>Zwei-Faktor-Authentifizierung für Ihre Apple-ID aktivieren (Voraussetzung).</li>
+        <li><a href="https://appleid.apple.com" target="_blank" rel="noopener noreferrer">appleid.apple.com</a> öffnen und anmelden.</li>
+        <li>„Anmelden und Sicherheit“ → „App-spezifische Passwörter“ → neues Passwort erzeugen (z. B. „Kontakte-Export“).</li>
+        <li>Das Passwort (Format <code>xxxx-xxxx-xxxx-xxxx</code>) unten eintragen. Danach können Sie es bei Apple wieder widerrufen.</li>
+      </ol>
+      Die Zugangsdaten bleiben nur im Arbeitsspeicher dieses lokalen Programms und gehen ausschließlich an Apples Server (<code>contacts.icloud.com</code>).
+    </div>
+    <label>Apple-ID (E-Mail)<input id="appleId" type="email" required autofocus></label>
+    <label>App-spezifisches Passwort<input id="password" type="password" required placeholder="xxxx-xxxx-xxxx-xxxx"></label>
+    <div id="pwWarn" class="warn" hidden>Das sieht nicht wie ein app-spezifisches Passwort aus (xxxx-xxxx-xxxx-xxxx). Ein normales Apple-Passwort wird abgelehnt.</div>
+    <button type="submit" id="loginBtn">Verbinden</button>
+    <div id="loginErr" class="err" hidden></div>
+  </form>
+</main>
+
+<main id="app" hidden>
+  <div class="bar">
+    <label>Adressbuch <select id="book"></select></label>
+    <button id="reload">Neu laden</button>
+    <span id="status"></span>
+  </div>
+  <div id="loadErr" class="err" hidden></div>
+  <div class="cols">
+    <section class="list">
+      <div class="bar">
+        <input id="search" type="search" placeholder="Suchen (Name, Firma, Telefon, E-Mail)">
+        <select id="sort"><option value="name">Nachname</option><option value="given">Vorname</option><option value="org">Firma</option></select>
+      </div>
+      <div class="bar small">
+        <label><input type="checkbox" id="selAll"> Alle angezeigten</label>
+        <span id="count"></span>
+      </div>
+      <ul id="items"></ul>
+      <div class="bar export">
+        <select id="fmt"><option value="vcf">Sammel-.vcf</option><option value="zip">ZIP mit Einzeldateien</option></select>
+        <button id="expSel" disabled>Auswahl exportieren</button>
+        <button id="expAll">Alle exportieren</button>
+      </div>
+    </section>
+    <section class="detail" id="detail"><p class="muted">Kontakt auswählen.</p></section>
+  </div>
+</main>
+<script src="/app.js"></script>
+</body>
+</html>

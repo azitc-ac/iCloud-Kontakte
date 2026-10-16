@@ -17,9 +17,9 @@
 .PARAMETER Folder        Zielordner (Name oder Pfad wie "Privat/iCloud"). Ohne Angabe: Auswahlliste.
 .PARAMETER CreateFolder  Zielordner anlegen, falls er nicht existiert.
 .PARAMETER Mailbox       Anderes/gemeinsames Postfach (UPN/E-Mail) statt des eigenen.
-.PARAMETER TenantId      Mandant (Standard: organizations). Bei Bedarf Domaene oder GUID des Kunden.
+.PARAMETER TenantId      Mandant (Standard: organizations). Bei Bedarf Domaene oder GUID Deines Mandanten.
 .PARAMETER ClientId      App-ID fuer die Anmeldung. Standard: "Microsoft Graph Command Line Tools" (oeffentlicher Microsoft-Client).
-                         Wenn der Kunde diese App sperrt: eigene App-Registrierung (oeffentlicher Client, delegiert Contacts.ReadWrite).
+                         Wenn diese App in Deiner Umgebung gesperrt ist: eigene App-Registrierung (oeffentlicher Client, delegiert Contacts.ReadWrite).
 .PARAMETER Force         Keine Rueckfrage vor dem Import.
 
 .EXAMPLE

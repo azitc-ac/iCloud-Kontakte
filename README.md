@@ -62,7 +62,7 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
 
 * **Anmeldung:** Device-Code-Flow (Browser + Code, MFA-fähig), delegierte Berechtigung `Contacts.ReadWrite`
   (`-Mailbox user@firma.de` für ein anderes Postfach zusätzlich `Contacts.ReadWrite.Shared`). Tokens nur im Speicher.
-  Standardmäßig wird Microsofts öffentlicher Client „Microsoft Graph Command Line Tools“ genutzt. Sperrt der Kunde ihn
+  Standardmäßig wird Microsofts öffentlicher Client „Microsoft Graph Command Line Tools“ genutzt. Ist er in Deiner Umgebung gesperrt
   (Zustimmung des Administrators nötig), eine eigene App-Registrierung (öffentlicher Client, Device-Code erlaubt,
   delegiert `Contacts.ReadWrite`) anlegen und per `-ClientId` übergeben; ggf. `-TenantId firma.de`.
 * **Ordner:** `-Folder "Name"` oder `"Eltern/Kind"`; `Kontakte` = Standardordner; `-CreateFolder` legt fehlende Ordner an.

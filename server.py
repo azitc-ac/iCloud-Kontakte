@@ -132,6 +132,12 @@ def make_handler(app):
             return json.loads(self.rfile.read(n) or b"{}")
 
         # ---------------- GET ----------------
+        def handle_one_request(self):
+            try:
+                super().handle_one_request()
+            except Exception as e:
+                print("Fehler:", type(e).__name__, e)
+
         def do_GET(self):
             if not self._host_ok():
                 return self._err(403, "Ungültiger Host")

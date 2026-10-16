@@ -77,7 +77,7 @@ class App:
 
 
 def auth_message(user):
-    return ("Apple hat die Anmeldung abgelehnt. Prüfen Sie: (1) Es muss ein APP-SPEZIFISCHES Passwort "
+    return ("Apple hat die Anmeldung abgelehnt. Prüfe: (1) Es muss ein APP-SPEZIFISCHES Passwort "
             "verwendet werden (Format xxxx-xxxx-xxxx-xxxx), nicht das normale Apple-Passwort. "
             "(2) Dafür muss die Zwei-Faktor-Authentifizierung für die Apple-ID aktiv sein. "
             "(3) Apple-ID exakt eingeben (E-Mail-Adresse). (4) Bei Zweifeln unter appleid.apple.com "

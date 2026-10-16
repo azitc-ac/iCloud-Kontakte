@@ -204,7 +204,7 @@ function Step-Load($S) {
 }
 
 # ---------------------------------------------------------------- HTTP-Server
-$script:AuthMessage = 'Apple hat die Anmeldung abgelehnt. Pruefen Sie: (1) Es muss ein APP-SPEZIFISCHES Passwort verwendet werden (Format xxxx-xxxx-xxxx-xxxx), nicht das normale Apple-Passwort. (2) Dafuer muss die Zwei-Faktor-Authentifizierung fuer die Apple-ID aktiv sein. (3) Apple-ID exakt eingeben (E-Mail-Adresse). (4) Bei Zweifeln unter appleid.apple.com ein neues app-spezifisches Passwort erzeugen.'
+$script:AuthMessage = 'Apple hat die Anmeldung abgelehnt. Pruefe: (1) Es muss ein APP-SPEZIFISCHES Passwort verwendet werden (Format xxxx-xxxx-xxxx-xxxx), nicht das normale Apple-Passwort. (2) Dafuer muss die Zwei-Faktor-Authentifizierung fuer die Apple-ID aktiv sein. (3) Apple-ID exakt eingeben (E-Mail-Adresse). (4) Bei Zweifeln unter appleid.apple.com ein neues app-spezifisches Passwort erzeugen.'
 
 function Send-Bytes($Ctx, [int]$Code, [byte[]]$Bytes, [string]$Type, [hashtable]$Headers) {
     $r = $Ctx.Response

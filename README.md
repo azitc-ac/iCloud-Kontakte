@@ -1,6 +1,6 @@
 # iCloud-Kontakte Export
 
-Kleine lokale Web-App (Python, nur Standardbibliothek – nichts zu installieren), mit der Sie Ihre
+Kleine lokale Web-App (Python, nur Standardbibliothek – nichts zu installieren), mit der Du Deine
 iCloud-Kontakte ansehen, durchsuchen und als **vCard (.vcf)** exportieren können.
 
 ## Wichtig: Anmeldung bei Apple
@@ -8,15 +8,15 @@ iCloud-Kontakte ansehen, durchsuchen und als **vCard (.vcf)** exportieren könne
 Apple bietet **keine öffentliche OAuth-Schnittstelle für Kontakte** („Sign in with Apple“ liefert keinen
 Kontaktzugriff). Der offizielle Weg für Fremd-Apps ist **CardDAV** (`https://contacts.icloud.com`) mit
 
-* Ihrer **Apple-ID** (E-Mail) und
-* einem **app-spezifischen Passwort** – *nicht* Ihrem normalen Apple-Passwort.
+* Deiner **Apple-ID** (E-Mail) und
+* einem **app-spezifischen Passwort** – *nicht* Deinem normalen Apple-Passwort.
 
-So erzeugen Sie das app-spezifische Passwort:
+So erzeugst Du das app-spezifische Passwort:
 
 1. Für die Apple-ID muss die **Zwei-Faktor-Authentifizierung** aktiv sein.
 2. <https://appleid.apple.com> öffnen und anmelden.
 3. **Anmelden und Sicherheit → App-spezifische Passwörter** → neues Passwort erzeugen (Name z. B. „Kontakte-Export“).
-4. Das Passwort im Format `xxxx-xxxx-xxxx-xxxx` in der App eintragen. Nach dem Export können Sie es dort wieder widerrufen.
+4. Das Passwort im Format `xxxx-xxxx-xxxx-xxxx` in der App eintragen. Nach dem Export kannst Du es dort wieder widerrufen.
 
 ## Start
 
@@ -73,7 +73,7 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
   fassen kann (z. B. 4. E-Mail, Fax, weitere Adressen) wird **nicht verworfen**, sondern unten in die Notiz geschrieben.
 * Import in 20er-Blöcken per `$batch`, Wiederholung bei Drosselung (HTTP 429), Zusammenfassung und Fehlerliste am Ende; Exitcode 1 bei Fehlern.
 * Grenzen: nur Anlegen, kein Aktualisieren bestehender Kontakte; Kategorien/Gruppen aus iCloud werden nicht übertragen.
-  Gegen echtes Exchange Online noch nicht getestet (nur gegen einen Graph-Mock, `mock_graph.py`).
+  Automatische Tests laufen gegen einen Graph-Mock (`mock_graph.py`); manuell gegen Exchange Online erfolgreich getestet.
 
 ## Funktionen
 
@@ -89,7 +89,7 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
 ## Datenschutz & Sicherheit
 
 * Server bindet **nur an 127.0.0.1**; Host-Header-Prüfung (gegen DNS-Rebinding) und CSRF-Header-Pflicht für alle POSTs.
-* Zugangsdaten und Kontakte liegen **nur im Arbeitsspeicher**; nichts wird auf die Platte geschrieben (außer Ihren Downloads).
+* Zugangsdaten und Kontakte liegen **nur im Arbeitsspeicher**; nichts wird auf die Platte geschrieben (außer Deinen Downloads).
   Sitzung endet bei „Abmelden“, nach 30 Minuten Inaktivität oder beim Beenden des Programms.
 * Zugangsdaten gehen **ausschließlich an `*.icloud.com` über HTTPS**; andere Ziele (auch per Weiterleitung) werden abgelehnt.
 * Keine Telemetrie, keine externen Ressourcen (Fotos werden nur aus den vCards selbst angezeigt, externe Foto-URLs nicht geladen).
@@ -114,5 +114,5 @@ python server.py --carddav-url http://127.0.0.1:8766/                       # Te
 ## Grenzen
 
 * Nur Lesen/Export; keine Änderungen an iCloud.
-* Der Login wurde bisher nur gegen den Mock getestet, nicht gegen echte iCloud-Server.
+* Getestet: Mock-Tests (automatisch) sowie manuell gegen echtes iCloud und Exchange Online (erfolgreich).
 * Kontaktgruppen und Kontaktbilder in externen URLs werden nicht gesondert behandelt.

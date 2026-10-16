@@ -3,7 +3,7 @@
 # iCloud-Kontakte Export
 
 Kleine lokale Web-App (Python, nur Standardbibliothek – nichts zu installieren), mit der Du Deine
-iCloud-Kontakte ansehen, durchsuchen und als **vCard (.vcf)** exportieren können.
+iCloud-Kontakte ansehen, durchsuchen und als **vCard (.vcf)** exportieren kannst.
 
 ## Wichtig: Anmeldung bei Apple
 
@@ -67,9 +67,9 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
 
 * **Anmeldung:** Device-Code-Flow (Browser + Code, MFA-fähig), delegierte Berechtigung `Contacts.ReadWrite`
   (`-Mailbox user@firma.de` für ein anderes Postfach zusätzlich `Contacts.ReadWrite.Shared`). Tokens nur im Speicher.
-  Standardmäßig wird Microsofts öffentlicher Client „Microsoft Graph Command Line Tools“ genutzt. Ist er in Deiner Umgebung gesperrt
-  (Zustimmung des Administrators nötig), eine eigene App-Registrierung (öffentlicher Client, Device-Code erlaubt,
-  delegiert `Contacts.ReadWrite`) anlegen und per `-ClientId` übergeben; ggf. `-TenantId firma.de`.
+  Standardmäßig wird Microsofts öffentlicher Client „Microsoft Graph Command Line Tools“ genutzt. Ist er in Deiner Umgebung gesperrt (oder verlangt Admin-Zustimmung),
+  lege eine eigene App-Registrierung an (öffentlicher Client, Device-Code erlaubt, delegiert `Contacts.ReadWrite`)
+  und übergib ihre ID per `-ClientId`; bei Bedarf zusätzlich `-TenantId firma.de`.
 * **Ordner:** `-Folder "Name"` oder `"Eltern/Kind"`; `Kontakte` = Standardordner; `-CreateFolder` legt fehlende Ordner an.
   Ohne `-Folder` erscheint eine Auswahlliste (inkl. „Neuen Ordner anlegen“).
 * **Duplikate:** Kontakte mit gleichem Anzeigenamen + erster E-Mail im Zielordner werden übersprungen (`-AllowDuplicates` schaltet das ab).

@@ -1,3 +1,5 @@
+<img width="970" height="974" alt="image" src="https://github.com/user-attachments/assets/81b5ed2a-86af-4b50-84db-178b98f2e016" />
+
 # iCloud-Kontakte Export
 
 Kleine lokale Web-App (Python, nur Standardbibliothek – nichts zu installieren), mit der Du Deine
@@ -10,6 +12,7 @@ Kontaktzugriff). Der offizielle Weg für Fremd-Apps ist **CardDAV** (`https://co
 
 * Deiner **Apple-ID** (E-Mail) und
 * einem **app-spezifischen Passwort** – *nicht* Deinem normalen Apple-Passwort.
+<img width="858" height="658" alt="image" src="https://github.com/user-attachments/assets/471e622f-3433-4857-aded-4b87dfb1fd68" />
 
 So erzeugst Du das app-spezifische Passwort:
 
@@ -17,6 +20,7 @@ So erzeugst Du das app-spezifische Passwort:
 2. <https://appleid.apple.com> öffnen und anmelden.
 3. **Anmelden und Sicherheit → App-spezifische Passwörter** → neues Passwort erzeugen (Name z. B. „Kontakte-Export“).
 4. Das Passwort im Format `xxxx-xxxx-xxxx-xxxx` in der App eintragen. Nach dem Export kannst Du es dort wieder widerrufen.
+<img width="1044" height="648" alt="image" src="https://github.com/user-attachments/assets/75e48aca-ab69-4c59-9b62-f509152acda4" />
 
 ## Start
 
@@ -59,6 +63,7 @@ powershell -ExecutionPolicy Bypass -File .\Import-VCardToExchangeOnline.ps1
 .\Import-VCardToExchangeOnline.ps1 -Path .\iCloud-Kontakte-2026-10-16.zip -All -Folder "iCloud" -CreateFolder -WhatIf
 .\Import-VCardToExchangeOnline.ps1 -Path .\iCloud-Kontakte-2026-10-16.zip -All -Folder "iCloud" -CreateFolder
 ```
+<img width="1184" height="1008" alt="image" src="https://github.com/user-attachments/assets/09199abb-69da-44ec-a7da-43dfaf9d3218" />
 
 * **Anmeldung:** Device-Code-Flow (Browser + Code, MFA-fähig), delegierte Berechtigung `Contacts.ReadWrite`
   (`-Mailbox user@firma.de` für ein anderes Postfach zusätzlich `Contacts.ReadWrite.Shared`). Tokens nur im Speicher.
